@@ -17,7 +17,7 @@ app.use(cors())
 var app_access_key = '632b42cce08863a3f2f6cd87';
 var app_secret = '5TiFGWliqoTbdkTDXc-lZ0CxoLSeZupVvkN7KAjGE2dtW13U-zFF0jcuaickOPy2QmKjCC-vNBPM3OFT-8Ab7HzVHJQc_ps1JvqdUjk26Jaulla0dd-luzCMIDRojD8sqduIlG6VJvrE25DTPuTf-jtre2L0Yov0y72KnRIC-RA=';
 
-app.get('/', (req, res) => {return res.send("welcome to server")})
+app.get('/', (req, res) => { return res.send("welcome to server") })
 app.get('/managementToken', (req, res) => {
     console.log("req1");
     jwt.sign(
@@ -84,4 +84,6 @@ app.get('/managementToken', (req, res) => {
 
 })
 
-server.listen(port, () => console.log(`Listening on port ${port}`));
+app.listen(process.env.PORT || 4001, function () {
+    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+});
