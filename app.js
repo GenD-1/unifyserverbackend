@@ -32,10 +32,8 @@ app.get('/managementToken', (req, res) => {
             jwtid: uuid4()
         },
         function (err, token) {
-            console.log(token);
-            if (err) { return res.send(" managment token generation fail") }
 
-
+            if (err) { return res.send({ error: err, message: "Error in Token Generation" }) }
             axios.post('https://api.100ms.live/v2/rooms',
 
                 {
@@ -49,16 +47,12 @@ app.get('/managementToken', (req, res) => {
                     headers: {
                         'Content-type': 'application/json',
                         'Authorization': `Bearer ${token}`,
-                        // 'Content-Type': 'application/x-www-form-urlencoded',
+
                     },
                 }
 
             ).then(async (result) => {
-
                 console.log('result', result);
-
-
-
                 axios.post(`https://prod-in2.100ms.live/hmsapi/unifymarketplace-audio.app.100ms.live/api/token`, {
 
                     user_id: result.data.customer_id, // User ID assigned by you (different from 100ms' assigned id)
@@ -71,14 +65,18 @@ app.get('/managementToken', (req, res) => {
                     return res.send({ 'token': resposeData.data.token, 'roomId': result.data.id })
 
                 }).catch((err) => {
-                    console.log(err);
+                    return res.send({ error: err, message: "Error in Api Token Generation" })
                 })
 
 
 
+            }).catch(err => {
+                return res.send({ error: err, message: "Error in Room Generation" })
             });
-        });
+        })
+});
 
-})
 
 server.listen(PORT, () => console.log(`Listening on port ${PORT}`));
+
+
