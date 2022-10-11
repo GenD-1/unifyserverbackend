@@ -99,14 +99,6 @@ app.post("/join-room", async (req, res) => {
 });
 
 
-
-
-
-
-
-
-
-
 app.listen(PORT, () =>
   console.log(`Express server is running on localhost:${PORT}`)
 );
